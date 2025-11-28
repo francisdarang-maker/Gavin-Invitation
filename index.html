@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gavin's Royal Birthday Celebration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #2d1b4e 50%, #1a1f3a 75%, #0a0e27 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        #particlesCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+            font-size: 28px;
+            box-shadow: 0 5px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .music-control:hover {
+            background: rgba(212, 175, 55, 0.4);
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 8px 35px rgba(212, 175, 55, 0.6);
+        }
+
+        .music-control.playing {
+            animation: musicPulse 1s infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .invitation-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 50px 40px;
+            text-align: center;
+            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            backdrop-filter: blur(20px);
+            border: 3px solid #d4af37;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .invitation-container.loaded {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .invitation-container:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6), 0 0 60px rgba(212, 175, 55, 0.5);
+        }
+
+        .invitation-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+
+        .crown-decoration {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 50px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            border-radius: 50% 50% 0 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            padding: 0 15px 10px;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.6);
+            animation: crownFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes crownFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .crown-decoration::before,
+        .crown-decoration::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            height: 25px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .crown-decoration::before { left: 15px; }
+        .crown-decoration::after { right: 15px; }
+
+        .crown-decoration span {
+            width: 12px;
+            height: 18px;
+            background: white;
+            border-radius: 50% 50% 0 0;
+            animation: gemSparkle 2s infinite;
+        }
+
+        .crown-decoration span:nth-child(2) { animation-delay: 0.3s; }
+        .crown-decoration span:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes gemSparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.9); }
+        }
+
+        .ornament {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(212, 175, 55, 0.4);
+            animation: ornamentGlow 3s infinite;
+        }
+
+        @keyframes ornamentGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; border-color: rgba(212, 175, 55, 0.8); }
+        }
+
+        .top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; border-radius: 10px 0 0 0; }
+        .top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; border-radius: 0 10px 0 0; }
+        .bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; border-radius: 0 0 0 10px; }
+        .bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; border-radius: 0 0 10px 0; }
+
+        .header-top {
+            font-size: 20px;
+            margin-top: 20px;
+            letter-spacing: 3px;
+            color: #e5c158;
+            font-weight: 300;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .royal-title {
+            font-size: 48px;
+            font-weight: 900;
+            color: #d4af37;
+            margin: 20px 0 30px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.4);
+            font-family: 'Cinzel', serif;
+            position: relative;
+            padding-bottom: 20px;
+            animation: titleGlow 2s infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.8); }
+            50% { text-shadow: 0 0 30px rgba(212, 175, 55, 1), 0 0 50px rgba(212, 175, 55, 0.6); }
+        }
+
+        .royal-title::after {
+            content: "";
+            position: absolute;
+            left: 20%;
+            bottom: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            animation: lineExpand 2s infinite;
+        }
+
+        @keyframes lineExpand {
+            0%, 100% { width: 60%; opacity: 0.6; }
+            50% { width: 70%; opacity: 1; }
+        }
+
+        .image-frame {
+            width: 240px;
+            height: 240px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid #d4af37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.2);
+            animation: frameRotate 20s linear infinite;
+            position: relative;
+        }
+
+        @keyframes frameRotate {
+            0% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.7), 0 0 50px rgba(212, 175, 55, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(212, 175, 55, 1), 0 0 70px rgba(212, 175, 55, 0.5); }
+            100% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.7), 0 0 50px rgba(212, 175, 55, 0.3); }
+        }
+
+        .image-frame::before {
+            content: "";
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            padding: 6px;
+            background: linear-gradient(45deg, #d4af37, #f4d03f, #d4af37);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: rotateGradient 3s linear infinite;
+        }
+
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .name {
+            font-size: 56px;
+            color: #d4af37;
+            margin: 20px 0 10px;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            animation: nameFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes nameFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .turning {
+            font-size: 20px;
+            margin: 10px 0;
+            color: #a8c0e0;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 2px;
+        }
+
+        .age {
+            font-size: 64px;
+            color: #e5c158;
+            margin: 15px 0 35px;
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(229, 193, 88, 0.8);
+            animation: agePulse 2s infinite;
+        }
+
+        @keyframes agePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .details {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .date, .location, .time {
+            flex: 1;
+            padding: 20px 15px;
+            background: rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+        }
+
+        .date:hover, .location:hover, .time:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .month, .ampm {
+            font-size: 18px;
+            color: #e5c158;
+            font-weight: 700;
+        }
+
+        .day, .clock {
+            font-size: 42px;
+            font-weight: 900;
+            margin: 5px 0;
+            color: #d4af37;
+        }
+
+        .year {
+            font-size: 16px;
+            color: #a8c0e0;
+        }
+
+        .location strong {
+            font-size: 18px;
+            color: #e5c158;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .location div {
+            color: #a8c0e0;
+            line-height: 1.6;
+        }
+
+        /* Container section */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .crown-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: crownBounce 2s infinite;
+            filter: drop-shadow(0 10px 20px rgba(212, 175, 55, 0.5));
+        }
+
+        @keyframes crownBounce {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-15px) rotate(-5deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        .main-title {
+            font-size: 56px;
+            font-weight: 900;
+            color: #d4af37;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+            font-family: 'Cinzel', serif;
+        }
+
+        .subtitle {
+            font-size: 22px;
+            color: #a8c0e0;
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .game-category {
+            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            backdrop-filter: blur(20px);
+            border: 3px solid #d4af37;
+            border-radius: 25px;
+            padding: 35px 30px;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 0.8s both;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .game-category:nth-child(1) { animation-delay: 0.1s; }
+        .game-category:nth-child(2) { animation-delay: 0.2s; }
+        .game-category:nth-child(3) { animation-delay: 0.3s; }
+        .game-category:nth-child(4) { animation-delay: 0.4s; }
+        .game-category:nth-child(5) { animation-delay: 0.5s; }
+        .game-category:nth-child(6) { animation-delay: 0.6s; }
+        .game-category:nth-child(7) { animation-delay: 0.7s; }
+        .game-category:nth-child(8) { animation-delay: 0.8s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .game-category::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: all 0.5s;
+        }
+
+        .game-category:hover::before {
+            left: 100%;
+        }
+
+        .game-category:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.5);
+            border-color: #e5c158;
+        }
+
+        .category-badge {
+            background: linear-gradient(135deg, #d4af37, #f4d03f, #e5c158);
+            padding: 14px 35px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 25px;
+            font-size: 24px;
+            font-weight: 900;
+            color: #0a1424;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
+            font-family: 'Cinzel', serif;
+            transition: all 0.3s;
+        }
+
+        .game-category:hover .category-badge {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.7);
+        }
+
+        .names-list {
+            list-style: none;
+        }
+
+        .names-list li {
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            background: rgba(212, 175, 55, 0.08);
+            border-radius: 12px;
+            border-left: 4px solid #d4af37;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .names-list li:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: translateX(15px);
+            border-left-width: 6px;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .special-section {
+            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            backdrop-filter: blur(20px);
+            border: 3px solid #d4af37;
+            border-radius: 30px;
+            padding: 50px 40px;
+            margin-top: 40px;
+            text-align: center;
+            animation: fadeInUp 1s 0.9s both;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .special-section h2 {
+            font-size: 42px;
+            color: #d4af37;
+            margin-bottom: 40px;
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+        }
+
+        .special-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+            margin-bottom: 40px;
+        }
+
+        .special-item {
+            background: rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 18px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            transition: all 0.3s;
+        }
+
+        .special-item:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .special-item h3 {
+            color: #e5c158;
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+        }
+
+        .special-item p {
+            color: #a8c0e0;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .sponsors-box {
+            background: rgba(212, 175, 55, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+
+        .sponsors-box:hover {
+            background: rgba(212, 175, 55, 0.25);
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .sponsors-box h2 {
+            font-size: 32px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .sponsors-box p {
+            color: #a8c0e0;
+            line-height: 2;
+            font-size: 18px;
+        }
+
+        /* Special Roles Section */
+        .special-roles-section {
+            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            backdrop-filter: blur(20px);
+            border: 3px solid #d4af37;
+            border-radius: 30px;
+            padding: 50px 40px;
+            margin-top: 60px;
+            text-align: center;
+            animation: fadeInUp 1s 1.1s both;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .special-roles-section h2 {
+            font-size: 42px;
+            color: #d4af37;
+            margin-bottom: 40px;
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+        }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+            margin-bottom: 40px;
+        }
+
+        .role-item {
+            background: rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 18px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            transition: all 0.3s;
+        }
+
+        .role-item:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .role-item h3 {
+            color: #e5c158;
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+        }
+
+        .role-item ul {
+            list-style: none;
+            text-align: left;
+        }
+
+        .role-item li {
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            background: rgba(212, 175, 55, 0.08);
+            border-radius: 8px;
+            border-left: 3px solid #d4af37;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .role-item li:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: translateX(10px);
+            border-left-width: 5px;
+        }
+
+        /* RSVP Section */
+        .rsvp-section {
+            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            backdrop-filter: blur(20px);
+            border: 3px solid #d4af37;
+            border-radius: 30px;
+            padding: 50px 40px;
+            margin-top: 60px;
+            text-align: center;
+            animation: fadeInUp 1s 1.2s both;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .rsvp-section h2 {
+            font-size: 42px;
+            color: #d4af37;
+            margin-bottom: 30px;
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+        }
+
+        .rsvp-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e5c158;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #0a1424;
+            border: none;
+            padding: 18px 40px;
+            font-size: 20px;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Cinzel', serif;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.7);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 40px 20px;
+            border-top: 2px solid rgba(212, 175, 55, 0.3);
+            color: #a8c0e0;
+            font-size: 16px;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-wrapper {
+                padding: 30px 15px 60px;
+                gap: 40px;
+            }
+
+            .invitation-container {
+                padding: 40px 25px;
+            }
+
+            .royal-title {
+                font-size: 36px;
+            }
+
+            .name {
+                font-size: 42px;
+            }
+
+            .age {
+                font-size: 48px;
+            }
+
+            .image-frame {
+                width: 200px;
+                height: 200px;
+            }
+
+            .details {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .date, .location, .time {
+                width: 100%;
+            }
+
+            .main-title {
+                font-size: 36px;
+            }
+
+            .crown-icon {
+                font-size: 60px;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .special-grid, .roles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .special-section, .special-roles-section {
+                padding: 35px 25px;
+            }
+
+            .music-control {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .rsvp-section {
+                padding: 35px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .royal-title {
+                font-size: 28px;
+            }
+
+            .name {
+                font-size: 36px;
+            }
+
+            .age {
+                font-size: 40px;
+            }
+
+            .main-title {
+                font-size: 28px;
+            }
+
+            .category-badge {
+                font-size: 20px;
+                padding: 12px 25px;
+            }
+        }
+
+        /* Confetti Effect */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particlesCanvas"></canvas>
+    <div class="music-control" id="musicControl">🎵</div>
+
+    <div class="main-wrapper">
+        <div class="invitation-container" id="invitation">
+            <div class="crown-decoration">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="ornament top-left"></div>
+            <div class="ornament top-right"></div>
+            <div class="ornament bottom-left"></div>
+            <div class="ornament bottom-right"></div>
+
+            <div class="header-top">Join us for a</div>
+            <h1 class="royal-title">Royal Celebration</h1>
+
+            <div class="image-frame">
+                <img src="https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=400&h=400&fit=crop" alt="Birthday celebrant">
+            </div>
+
+            <h2 class="name">Gavin</h2>
+            <div class="turning">is turning</div>
+            <h1 class="age">SEVEN</h1>
+
+            <div class="details">
+                <div class="date">
+                    <div class="month">DEC</div>
+                    <div class="day">06</div>
+                    <div class="year">2025</div>
+                </div>
+
+                <div class="location">
+                    <strong>BRGY. PLAZA</strong>
+                    <div>Esmeralda, Balungao,<br>Pangasinan</div>
+                </div>
+
+                <div class="time">
+                    <div class="clock">1:00</div>
+                    <div class="ampm">PM</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="header">
+                <div class="crown-icon">👑</div>
+                <h1 class="main-title">Royal Games & Celebrations</h1>
+                <p class="subtitle">GAVIN'S 7TH BIRTHDAY</p>
+            </div>
+
+            <div class="games-grid">
+                <div class="game-category">
+                    <div class="category-badge">🧁 7 Cupcakes</div>
+                    <ul class="names-list">
+                        <li>Sophia Reign Geron</li>
+                        <li>Sean John Gargar</li>
+                        <li>Jiyah Cristo</li>
+                        <li>Luke Wesley Dela Cruz</li>
+                        <li>Prince Caleb Mendiola</li>
+                        <li>Cjan Geron</li>
+                        <li>Anonymous</li>
+                    </ul>
+                </div>
+
+                <div class="game-category">
+                    <div class="category-badge">💎 7 Treasures</div>
+                    <ul class="names-list">
+                        <li>Mr. & Mrs Rangie Casuga</li>
+                        <li>Keth Antonio</li>
+                        <li>Darwina Antonio</li>
+                        <li>Arianne Jeunise Lacambra</li>
+                        <li>Dianne Elsa Lacambra</li>
+                        <li>Mrs. Rowena Villaluna</li>
+                        <li>Anonymous</li>
+                    </ul>
+                </div>
+
+                <div class="game-category">
+                    <div class="category-badge">🎂 7 Cakes</div>
+                    <ul class="names-list">
+                        <li>Vein Shanaia Cacal</li>
+                        <li>Avianah Kaye Leosala</li>
+                        <li>Stephanie Jane Villanueva</li>
+                        <li>Rhayven Andrew Ng</li>
+                        <li>Bladen Geron</li>
+                        <li>Aidan James Balbuena</li>
+                        <li>Riley Chloe Villanueva</li>
+                    </ul>
+                </div>
+
+                <div class="game-category">
+                    <div class="category-badge">🎁 7 Gifts</div>
+                    <ul class="names-list">
+                        <li>Princess Kylie</li>
+                        <li>Prince Kyle</li>
+                        <li>Princess Kyla</li>
+                        <li>Princess Kira</li>
+                        <li>Prince Kian</li>
+                        <li>Princess Kiana</li>
+                        <li>Prince Kyler</li>
+                    </ul>
+                </div>
+                <div class="game-category">
+                    <div class="category-badge">🌹 7 Roses</div>
+                    <ul class="names-list">
+                        <li>Mikaela Lucas</li>
+                        <li>Chloe Jane Hiray</li>
+                        <li>Aylie Dela Cruz</li>
+                        <li>Gelyn Flores</li>
+                        <li>Leona Ancheta</li>
+                        <li>Alysha Doctor</li>
+                        <li>Melvy Heart Gallardo</li>
+                    </ul>
+                </div>
+                <div class="game-category">
+                    <div class="category-badge">👠 7 Shoes</div>
+                    <ul class="names-list">
+                        <li>Jaliyah Faith Geron</li>
+                        <li>Queen Angela Casuga</li>
+                        <li>Princess Amirah Docusin</li>
+                        <li>Liza Mae Docusin</li>
+                        <li>Prince Nathan Docusin</li>
+                        <li>Niesha Mae Doculan</li>
+                        <li>Renoah Sopphie Fajardo</li>
+                    </ul>
+                </div>
+                <div class="game-category">
+                    <div class="category-badge">🎈 7 Balloons</div>
+                    <ul class="names-list">
+                        <li>Jaliyah Faith Geron</li>
+                            <li>Queen Angela Casuga</li>
+                            <li>Princess Amirah Docusin</li>
+                            <li>Liza Mae Docusin</li>
+                            <li>Prince Nathan Docusin</li>
+                            <li>Niesha Mae Doculan</li>
+                            <li>Renoah Sopphie Fajardo</li>
+                    </ul>
+                </div>
+                <div class="game-category">
+                    <div class="category-badge">🕯️ 7 Candles</div>
+                    <ul class="names-list">
+                        <li>Jaliyah Faith Geron</li>
+                            <li>Queen Angela Casuga</li>
+                            <li>Princess Amirah Docusin</li>
+                            <li>Liza Mae Docusin</li>
+                            <li>Prince Nathan Docusin</li>
+                            <li>Niesha Mae Doculan</li>
+                            <li>Renoah Sopphie Fajardo</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Special Roles Section -->
+            <div class="special-roles-section">
+                <h2>✨ Special Roles & Contributions ✨</h2>
+                <div class="roles-grid">
+                    <div class="role-item">
+                        <h3>🙏 Lead Prayers</h3>
+                        <ul>
+                            <li>Pastora Elsa M. Lopez</li>
+                        </ul>
+                    </div>
+                    <div class="role-item">
+                        <h3>🙏 Lead Prayers</h3>
+                        <ul>
+                            <li>Pastora Elsa M. Lopez</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sponsors-box">
+                    <h2>👨‍👩‍👧‍👦 Special Sponsors</h2>
+                    <p>Papa David • Papa Subhash<br>Doctora Savannah • Grandma Mamu</p>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <div class="footer">
+            <p>For inquiries, contact the Royal Court at: +63 123 456 7890</p>
+            <p>© 2025 Gavin's Royal Birthday Celebration. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize particles
+        function initParticles() {
+            const canvas = document.getElementById('particlesCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const particles = [];
+            const particleCount = 50;
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.color = `rgba(212, 175, 55, ${Math.random() * 0.5 + 0.1})`;
+                }
+                
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.y > canvas.height) this.y = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                }
+                
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            function init() {
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                
+                requestAnimationFrame(animate);
+            }
+            
+            init();
+            animate();
+            
+            window.addEventListener('resize', function() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // Music control functionality
+        function initMusicControl() {
+            const musicControl = document.getElementById('musicControl');
+            let isPlaying = false;
+            let audio = null;
+            
+            musicControl.addEventListener('click', function() {
+                if (!isPlaying) {
+                    // Create and play audio (placeholder - replace with actual birthday music)
+                    audio = new Audio();
+                    // For demo purposes, we'll just toggle the state without actual audio
+                    musicControl.classList.add('playing');
+                    musicControl.innerHTML = '🎶';
+                    isPlaying = true;
+                } else {
+                    if (audio) {
+                        audio.pause();
+                    }
+                    musicControl.classList.remove('playing');
+                    musicControl.innerHTML = '🎵';
+                    isPlaying = false;
+                }
+            });
+        }
+
+        // Confetti effect
+        function createConfetti() {
+            const colors = ['#d4af37', '#f4d03f', '#e5c158', '#ffffff', '#a8c0e0'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                
+                document.body.appendChild(confetti);
+                
+                const animation = confetti.animate([
+                    { transform: 'translateY(-20px) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
+                });
+                
+                animation.onfinish = () => {
+                    confetti.remove();
+                };
+            }
+        }
+
+        // Initialize animations and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize invitation animation
+            const invitation = document.getElementById('invitation');
+            setTimeout(() => {
+                invitation.classList.add('loaded');
+            }, 500);
+            
+            // Initialize particles
+            initParticles();
+            
+            // Initialize music control
+            initMusicControl();
+            
+            // Add confetti on invitation click
+            invitation.addEventListener('click', createConfetti);
+            
+            // Form submission
+            const rsvpForm = document.getElementById('rsvpForm');
+            rsvpForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your royal response! We look forward to celebrating with you.');
+                rsvpForm.reset();
+                createConfetti();
+            });
+            
+            // Add sparkle effect to gold elements on hover
+            const goldElements = document.querySelectorAll('.royal-title, .name, .age, .category-badge');
+            goldElements.forEach(element => {
+                element.addEventListener('mouseover', function() {
+                    this.style.textShadow = '0 0 25px rgba(212, 175, 55, 0.9)';
+                });
+                
+                element.addEventListener('mouseout', function() {
+                    this.style.textShadow = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
