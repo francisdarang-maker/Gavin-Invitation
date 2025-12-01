@@ -16,18 +16,11 @@
 
         body {
             background: #142740;
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
             color: white;
             min-height: 100vh;
             font-family: 'Playfair Display', serif;
             overflow-x: hidden;
             position: relative;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
 
         #particlesCanvas {
@@ -93,7 +86,7 @@
             max-width: 600px;
             padding: 50px 40px;
             text-align: center;
-            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            background: rgba(20, 39, 64, 0.95);
             backdrop-filter: blur(20px);
             border: 3px solid #d4af37;
             border-radius: 30px;
@@ -445,7 +438,7 @@
         }
 
         .game-category {
-            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            background: rgba(20, 39, 64, 0.95);
             backdrop-filter: blur(20px);
             border: 3px solid #d4af37;
             border-radius: 25px;
@@ -541,7 +534,7 @@
         }
 
         .special-section {
-            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            background: rgba(20, 39, 64, 0.95);
             backdrop-filter: blur(20px);
             border: 3px solid #d4af37;
             border-radius: 30px;
@@ -630,7 +623,7 @@
 
         /* Special Roles Section */
         .special-roles-section {
-            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            background: rgba(20, 39, 64, 0.95);
             backdrop-filter: blur(20px);
             border: 3px solid #d4af37;
             border-radius: 30px;
@@ -717,94 +710,6 @@
             margin-bottom: 10px;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .main-wrapper {
-                padding: 30px 15px 60px;
-                gap: 40px;
-            }
-
-            .invitation-container {
-                padding: 40px 25px;
-            }
-
-            .royal-title {
-                font-size: 36px;
-            }
-
-            .name {
-                font-size: 42px;
-            }
-
-            .age {
-                font-size: 48px;
-            }
-
-            .image-frame {
-                width: 200px;
-                height: 200px;
-            }
-
-            .details {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .date, .location, .time {
-                width: 100%;
-            }
-
-            .main-title {
-                font-size: 36px;
-            }
-
-            .crown-icon {
-                font-size: 60px;
-            }
-
-            .games-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .special-grid, .roles-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .special-section, .special-roles-section {
-                padding: 35px 25px;
-            }
-
-            .music-control {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .royal-title {
-                font-size: 28px;
-            }
-
-            .name {
-                font-size: 36px;
-            }
-
-            .age {
-                font-size: 40px;
-            }
-
-            .main-title {
-                font-size: 28px;
-            }
-
-            .category-badge {
-                font-size: 20px;
-                padding: 12px 25px;
-            }
-        }
-
         /* Confetti Effect */
         .confetti {
             position: fixed;
@@ -822,12 +727,151 @@
             background-repeat: no-repeat;
             position: relative;
             height: 900px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        
         
         .invitation-bg > * {
             position: relative;
             z-index: 2;
+        }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .main-wrapper {
+                padding: 20px 15px 40px;
+                gap: 40px;
+            }
+
+            .invitation-container {
+                padding: 30px 20px;
+                margin: 0 10px;
+            }
+
+            .invitation-bg {
+                height: 600px;
+                padding: 20px;
+            }
+
+            .royal-title {
+                font-size: 32px;
+            }
+
+            .name {
+                font-size: 36px;
+            }
+
+            .age {
+                font-size: 42px;
+            }
+
+            .image-frame {
+                width: 180px;
+                height: 180px;
+            }
+
+            .details {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .date, .location, .time {
+                width: 100%;
+            }
+
+            .main-title {
+                font-size: 32px;
+            }
+
+            .crown-icon {
+                font-size: 50px;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .special-grid, .roles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .special-section, .special-roles-section {
+                padding: 30px 20px;
+                margin: 0 10px;
+            }
+
+            .music-control {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                top: 15px;
+                right: 15px;
+            }
+            
+            .category-badge {
+                font-size: 20px;
+                padding: 12px 25px;
+            }
+            
+            .header-top {
+                font-size: 18px;
+            }
+            
+            .turning {
+                font-size: 18px;
+            }
+            
+            .month, .ampm, .location strong {
+                font-size: 16px;
+            }
+            
+            .day, .clock {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .royal-title {
+                font-size: 28px;
+            }
+
+            .name {
+                font-size: 32px;
+            }
+
+            .age {
+                font-size: 36px;
+            }
+
+            .main-title {
+                font-size: 28px;
+            }
+
+            .category-badge {
+                font-size: 18px;
+                padding: 10px 20px;
+            }
+            
+            .invitation-bg {
+                height: 500px;
+            }
+            
+            .image-frame {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .special-roles-section h2, .special-section h2 {
+                font-size: 32px;
+            }
+            
+            .footer {
+                margin-top: 50px;
+                padding: 30px 15px;
+            }
         }
     </style>
 </head>
@@ -1139,15 +1183,6 @@
             
             // Add confetti on invitation click
             invitation.addEventListener('click', createConfetti);
-            
-            // Form submission
-            const rsvpForm = document.getElementById('rsvpForm');
-            rsvpForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Thank you for your royal response! We look forward to celebrating with you.');
-                rsvpForm.reset();
-                createConfetti();
-            });
             
             // Add sparkle effect to gold elements on hover
             const goldElements = document.querySelectorAll('.royal-title, .name, .age, .category-badge');
