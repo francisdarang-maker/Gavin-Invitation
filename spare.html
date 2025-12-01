@@ -702,7 +702,88 @@
             transform: translateX(10px);
             border-left-width: 5px;
         }
-       
+
+        /* RSVP Section */
+        .rsvp-section {
+            background: linear-gradient(145deg, rgba(17, 34, 68, 0.95), rgba(10, 20, 36, 0.95));
+            backdrop-filter: blur(20px);
+            border: 3px solid #d4af37;
+            border-radius: 30px;
+            padding: 50px 40px;
+            margin-top: 60px;
+            text-align: center;
+            animation: fadeInUp 1s 1.2s both;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .rsvp-section h2 {
+            font-size: 42px;
+            color: #d4af37;
+            margin-bottom: 30px;
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+        }
+
+        .rsvp-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e5c158;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #0a1424;
+            border: none;
+            padding: 18px 40px;
+            font-size: 20px;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Cinzel', serif;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.7);
+        }
+
         /* Footer */
         .footer {
             text-align: center;
@@ -780,6 +861,10 @@
                 height: 50px;
                 font-size: 24px;
             }
+
+            .rsvp-section {
+                padding: 35px 25px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -813,22 +898,6 @@
             pointer-events: none;
             z-index: 9999;
         }
-        
-        /* Custom background image for invitation */
-        .invitation-bg {
-            background-image: url("./Gavin-Birthday.png");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-            height: 900px;
-        }
-        
-        
-        .invitation-bg > * {
-            position: relative;
-            z-index: 2;
-        }
     </style>
 </head>
 <body>
@@ -836,12 +905,53 @@
     <div class="music-control" id="musicControl">🎵</div>
 
     <div class="main-wrapper">
-        <div class="invitation-container invitation-bg" id="invitation"></div>
+        <div class="invitation-container" id="invitation">
+            <!-- Can you make this the photo i made or the invitation? -->
+            <div class="crown-decoration">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="ornament top-left"></div>
+            <div class="ornament top-right"></div>
+            <div class="ornament bottom-left"></div>
+            <div class="ornament bottom-right"></div>
+
+            <div class="header-top">Join us for a</div>
+            <h1 class="royal-title">Royal Celebration</h1>
+
+            <div class="image-frame">
+                <img src="https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=400&h=400&fit=crop" alt="Birthday celebrant">
+            </div>
+
+            <h2 class="name">Gavin</h2>
+            <div class="turning">is turning</div>
+            <h1 class="age">SEVEN</h1>
+
+            <div class="details">
+                <div class="date">
+                    <div class="month">DEC</div>
+                    <div class="day">06</div>
+                    <div class="year">2025</div>
+                </div>
+
+                <div class="location">
+                    <strong>BRGY. PLAZA</strong>
+                    <div>Esmeralda, Balungao,<br>Pangasinan</div>
+                </div>
+
+                <div class="time">
+                    <div class="clock">1:00</div>
+                    <div class="ampm">PM</div>
+                </div>
+            </div>
+        </div>
 
         <div class="container">
             <div class="header">
                 <div class="crown-icon">👑</div>
-                <h1 class="main-title">BIRTHDAY CELEBRATION</h1>
+                <h1 class="main-title">Royal Games & Celebrations</h1>
                 <p class="subtitle">GAVIN'S 7TH BIRTHDAY</p>
             </div>
 
@@ -994,11 +1104,12 @@
                     <p>Papa David • Papa Subhash<br>Doctora Savannah • Grandma Mamu</p>
                 </div>
             </div>
-           
+
+            
         </div>
 
         <div class="footer">
-            <p>For inquiries, contact <a href="https://www.facebook.com/francizz.alex20" style="color: #d4af37; text-decoration: none;">Francis Alex</a></p>
+            <p>For inquiries, contact <a href="https://facebook.com/francizz.alex20" style="">Francis Alex</a></p>
             <p>© 2025 Gavin's Royal Birthday Celebration. All rights reserved.</p>
         </div>
     </div>
